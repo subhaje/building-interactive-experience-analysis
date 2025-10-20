@@ -751,12 +751,30 @@
         const hasChildren = Array.isArray(item.items) && item.items.length > 0;
         const btn = document.createElement('button');
         btn.className = 'mobile-nav-link';
-        btn.innerHTML =
-          (item.icon ? `<img src="${item.icon}" alt="" />` : '') +
-          `<span>${item.title}</span>` +
-          (hasChildren
-            ? '<span class="material-symbols-outlined mobile-nav-add">add</span>'
-            : '<span class="material-symbols-outlined mobile-nav-arrow">chevron_right</span>');
+        
+        // Safely build button content
+        if (item.icon) {
+          const img = document.createElement('img');
+          img.src = item.icon;
+          img.alt = '';
+          btn.appendChild(img);
+        }
+        
+        const titleSpan = document.createElement('span');
+        titleSpan.textContent = item.title;
+        btn.appendChild(titleSpan);
+        
+        const iconSpan = document.createElement('span');
+        iconSpan.className = 'material-symbols-outlined';
+        if (hasChildren) {
+          iconSpan.className += ' mobile-nav-add';
+          iconSpan.textContent = 'add';
+        } else {
+          iconSpan.className += ' mobile-nav-arrow';
+          iconSpan.textContent = 'chevron_right';
+        }
+        btn.appendChild(iconSpan);
+        
         btn.onclick = e => {
           e.stopPropagation();
           if (hasChildren) {

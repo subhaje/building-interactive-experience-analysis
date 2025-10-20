@@ -564,10 +564,8 @@
 
             // On load, open the first section on mobile/tablet
             function initAccordion() {
-                if (mq.matches) {
-                    closeAll();
-                } else {
-                    closeAll();
+                closeAll();
+                if (!mq.matches) {
                     panels.forEach(panel => panel.setAttribute('aria-hidden', 'false'));
                 }
                 updateAccordionDisplay();
@@ -583,20 +581,36 @@
     <!-- Space Selection Modal Script -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Elements
+            // Constants
+            const POPOVER_OFFSET_X = 19;
+            const POPOVER_OFFSET_Y = 235;
+
+            // Helper functions
+            function capitalizeSpace(space) {
+                return space.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+            }
+
+            // Cached DOM Elements - Main
             const selectSpaceBtn = document.getElementById('select-space-btn');
             const modal = document.getElementById('space-selection-modal');
             const closeBtn = document.getElementById('modal-close-btn');
             const backBtn = document.getElementById('modal-back-btn');
             const modalOverlay = document.querySelector('.space-selection-modal-overlay');
-            const tabs = document.querySelectorAll('.space-selection-modal-tab');
-            const clickableAreas = document.querySelectorAll('.clickable-area');
-            const selectSpacesBtn = document.getElementById('modal-select-spaces-btn');
+            const modalTabs = document.getElementById('modal-tabs');
 
-            // Scenes
+            // Cached DOM Elements - Scenes
             const buildingOverviewScene = document.getElementById('building-overview-scene');
             const detailScene = document.getElementById('detail-scene');
             const popover = document.getElementById('space-popover');
+            const adminOfficeOverlay = document.querySelector('.admin-office-overlay');
+
+            // Cached NodeLists
+            const tabs = document.querySelectorAll('.space-selection-modal-tab');
+            const clickableAreas = document.querySelectorAll('.clickable-area');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const productCards = document.querySelectorAll('.product-card');
+            const dots = document.querySelectorAll('.dot');
+            const hvacComponents = document.querySelectorAll('.hvac-component');
 
             // Popover elements
             const popoverCloseBtn = document.getElementById('popover-close-btn');
@@ -610,26 +624,50 @@
             const detailTitle = document.getElementById('detail-title');
             const detailDescription = document.getElementById('detail-description');
 
-            // Tab content
-            const tabContents = document.querySelectorAll('.tab-content');
-
-            // Product carousel elements
-            const productCards = document.querySelectorAll('.product-card');
-            const carouselPrevBtns = document.querySelectorAll('.carousel-prev');
-            const carouselNextBtns = document.querySelectorAll('.carousel-next');
-            const dots = document.querySelectorAll('.dot');
-            const hvacComponents = document.querySelectorAll('.hvac-component');
-
             // State
             let currentSpace = null;
             let currentSystem = null;
             let currentProductIndex = 0;
+            let isPopoverVisible = false;
+            let focusableElements = [];
+            let firstFocusableElement = null;
+            let lastFocusableElement = null;
+            let previousClickedMarker = null;
+
+            // Focus trap helper
+            function updateFocusableElements() {
+                const focusableSelectors = 'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+                focusableElements = Array.from(modal.querySelectorAll(focusableSelectors));
+                firstFocusableElement = focusableElements[0];
+                lastFocusableElement = focusableElements[focusableElements.length - 1];
+            }
+
+            function trapFocus(e) {
+                if (e.key !== 'Tab') {
+                    return;
+                }
+
+                if (e.shiftKey) {
+                    if (document.activeElement === firstFocusableElement) {
+                        lastFocusableElement.focus();
+                        e.preventDefault();
+                    }
+                } else {
+                    if (document.activeElement === lastFocusableElement) {
+                        firstFocusableElement.focus();
+                        e.preventDefault();
+                    }
+                }
+            }
 
             // Open modal
             selectSpaceBtn.addEventListener('click', function () {
                 modal.style.display = 'flex';
                 document.body.style.overflow = 'hidden';
                 showBuildingOverview();
+                updateFocusableElements();
+                setTimeout(() => closeBtn.focus(), 100);
+                modal.addEventListener('keydown', trapFocus);
             });
 
             // Close modal
@@ -638,6 +676,8 @@
                 document.body.style.overflow = 'auto';
                 hidePopover();
                 showBuildingOverview();
+                modal.removeEventListener('keydown', trapFocus);
+                selectSpaceBtn.focus();
             }
 
             closeBtn.addEventListener('click', closeModal);
@@ -654,10 +694,9 @@
                 backBtn.style.display = 'none';
                 modalSpaceName.textContent = 'GREENHECK HIGH SCHOOL';
                 modalSystemName.style.display = 'none';
-                document.getElementById('modal-tabs').style.display = 'none';
+                modalTabs.style.display = 'none';
 
                 // Reset admin office overlay
-                const adminOfficeOverlay = document.querySelector('.admin-office-overlay');
                 if (adminOfficeOverlay) {
                     adminOfficeOverlay.style.display = 'none';
                 }
@@ -666,6 +705,11 @@
                 clickableAreas.forEach(area => {
                     area.style.display = 'block';
                 });
+
+                // Reset marker tracking
+                previousClickedMarker = null;
+
+                updateFocusableElements();
             }
 
             // Show detail scene
@@ -676,13 +720,14 @@
                 buildingOverviewScene.classList.remove('active');
                 detailScene.classList.add('active');
                 backBtn.style.display = 'flex';
-                modalSpaceName.textContent = space.charAt(0).toUpperCase() + space.slice(1);
+                modalSpaceName.textContent = capitalizeSpace(space);
                 modalSystemName.textContent = system;
                 modalSystemName.style.display = 'block';
-                document.getElementById('modal-tabs').style.display = 'flex';
+                modalTabs.style.display = 'flex';
 
                 // Update content based on space
                 updateDetailContent(space, system);
+                updateFocusableElements();
             }
 
             // Update detail content based on space
@@ -713,20 +758,22 @@
 
             // Show popover
             function showPopover(space, system, x, y) {
-                popoverSpaceName.textContent = space.charAt(0).toUpperCase() + space.slice(1);
+                currentSpace = space;
+                currentSystem = system;
+                isPopoverVisible = true;
+
+                popoverSpaceName.textContent = capitalizeSpace(space);
                 popoverSystemName.textContent = system;
                 popover.style.display = 'block';
-                popover.style.left = x + 'px';
-                popover.style.top = y + 'px';
+                popover.style.left = `${x}px`;
+                popover.style.top = `${y}px`;
             }
 
             // Hide popover
             function hidePopover() {
                 popover.style.display = 'none';
+                isPopoverVisible = false;
             }
-
-            // Admin office overlay element
-            const adminOfficeOverlay = document.querySelector('.admin-office-overlay');
 
             // Clickable areas functionality
             clickableAreas.forEach(area => {
@@ -735,34 +782,31 @@
                     const space = this.dataset.space;
                     const system = this.dataset.system;
 
+                    // Reset previous marker if exists
+                    if (previousClickedMarker && previousClickedMarker !== this) {
+                        previousClickedMarker.style.display = 'block';
+                    }
+
                     // Toggle admin office roof overlay
-                    if (space === 'admin-offices') {
-                        if (adminOfficeOverlay) {
-                            const isVisible = adminOfficeOverlay.style.display !== 'none';
-                            adminOfficeOverlay.style.display = isVisible ? 'none' : 'block';
-                        }
+                    if (space === 'admin-offices' && adminOfficeOverlay) {
+                        const isVisible = adminOfficeOverlay.style.display !== 'none';
+                        adminOfficeOverlay.style.display = isVisible ? 'none' : 'block';
                     }
 
                     // Store the position before hiding the area
                     const rect = this.getBoundingClientRect();
                     const modalRect = modal.getBoundingClientRect();
-                    const x = rect.left - modalRect.left + rect.width / 2 - 19;
-                    const y = rect.top - modalRect.top - 235;
+                    const x = rect.left - modalRect.left + rect.width / 2 - POPOVER_OFFSET_X;
+                    const y = rect.top - modalRect.top - POPOVER_OFFSET_Y;
 
                     // Hide the clicked area
                     this.style.display = 'none';
 
+                    // Track this marker as the previous one
+                    previousClickedMarker = this;
+
                     // Show popover at the same position
                     showPopover(space, system, x, y);
-                });
-
-                // Hover effects
-                area.addEventListener('mouseenter', function () {
-                    this.style.transform = 'scale(1.05)';
-                });
-
-                area.addEventListener('mouseleave', function () {
-                    this.style.transform = 'scale(1)';
                 });
             });
 
@@ -779,6 +823,8 @@
                 clickableAreas.forEach(area => {
                     area.style.display = 'block';
                 });
+                // Reset marker tracking
+                previousClickedMarker = null;
             });
 
             // Back button
@@ -797,7 +843,10 @@
 
                     // Update tab content
                     tabContents.forEach(content => content.classList.remove('active'));
-                    document.getElementById(tabName + '-content').classList.add('active');
+                    const targetContent = document.getElementById(`${tabName}-content`);
+                    if (targetContent) {
+                        targetContent.classList.add('active');
+                    }
                 });
             });
 
@@ -811,18 +860,18 @@
                 });
             }
 
-            carouselPrevBtns.forEach(btn => {
-                btn.addEventListener('click', function () {
+            // Event delegation for carousel controls
+            document.addEventListener('click', function (e) {
+                const prevBtn = e.target.closest('.carousel-prev');
+                const nextBtn = e.target.closest('.carousel-next');
+
+                if (prevBtn && modal.style.display === 'flex') {
                     currentProductIndex = currentProductIndex > 0 ? currentProductIndex - 1 : productCards.length - 1;
                     showProduct(currentProductIndex);
-                });
-            });
-
-            carouselNextBtns.forEach(btn => {
-                btn.addEventListener('click', function () {
+                } else if (nextBtn && modal.style.display === 'flex') {
                     currentProductIndex = currentProductIndex < productCards.length - 1 ? currentProductIndex + 1 : 0;
                     showProduct(currentProductIndex);
-                });
+                }
             });
 
             // HVAC component clicks
@@ -839,46 +888,50 @@
                                 showProduct(currentProductIndex);
                                 // Switch to System Equipment tab
                                 tabs.forEach(t => t.classList.remove('active'));
-                                document.querySelector('[data-tab="system-equipment"]').classList.add('active');
+                                const systemEquipmentTab = document.querySelector('[data-tab="system-equipment"]');
+                                const systemEquipmentContent = document.getElementById('system-equipment-content');
+
+                                if (systemEquipmentTab) {
+                                    systemEquipmentTab.classList.add('active');
+                                }
+
                                 tabContents.forEach(content => content.classList.remove('active'));
-                                document.getElementById('system-equipment-content').classList.add('active');
+                                if (systemEquipmentContent) {
+                                    systemEquipmentContent.classList.add('active');
+                                }
                             }
                         }
                     }
                 });
             });
 
-            // Select spaces button functionality
-            selectSpacesBtn.addEventListener('click', function () {
-                const selectedAreas = document.querySelectorAll('.clickable-area.selected');
-                if (selectedAreas.length > 0) {
-                    const selectedSpaces = Array.from(selectedAreas).map(area => area.dataset.space);
-                    console.log('Selected spaces:', selectedSpaces);
-                    alert(`Selected spaces: ${selectedSpaces.join(', ')}`);
-                } else {
-                    alert('Please select at least one space');
-                }
-            });
-
             // Keyboard navigation
             document.addEventListener('keydown', function (e) {
                 if (e.key === 'Escape') {
-                    if (popover.style.display === 'block') {
+                    if (isPopoverVisible) {
                         hidePopover();
+                        // Show all clickable areas when popover is closed
+                        clickableAreas.forEach(area => {
+                            area.style.display = 'block';
+                        });
+                        // Reset marker tracking
+                        previousClickedMarker = null;
                     } else if (modal.style.display === 'flex') {
                         closeModal();
                     }
                 }
             });
 
-            // Click outside popover to close
+            // Click outside popover to close - Only run when popover is visible
             document.addEventListener('click', function (e) {
-                if (!popover.contains(e.target) && popover.style.display === 'block') {
+                if (isPopoverVisible && !popover.contains(e.target) && !e.target.closest('.clickable-area')) {
                     hidePopover();
                     // Show all clickable areas when popover is closed by clicking outside
                     clickableAreas.forEach(area => {
                         area.style.display = 'block';
                     });
+                    // Reset marker tracking
+                    previousClickedMarker = null;
                 }
             });
         });

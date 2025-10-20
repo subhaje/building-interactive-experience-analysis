@@ -964,7 +964,8 @@ body {
   gap: 8px;
 }
 
-.clickable-area:hover {
+.clickable-area:hover,
+.clickable-area.hover-scale {
   transform: scale(1.1);
 }
 
