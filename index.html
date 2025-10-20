@@ -85,7 +85,7 @@
                         & ENGAGING EXPERIENCE
                     </p>
                     <div class="hero-buttons">
-                        <button class="hero-btn hero-btn-primary">
+                        <button class="hero-btn hero-btn-primary" id="select-space-btn">
                             <img src="./Content/imgs/icons/select-a-space.svg" alt="Select a Space" />
                             Select a Space
                         </button>
@@ -106,6 +106,214 @@
             Our products are designed to work together as complete, integrated systems that incorporate ventilation, filtration, humidification, and air circulation for healthier indoor spaces and improved learning.
         </p>
     </main>
+
+    <!-- Space Selection Modal -->
+    <div id="space-selection-modal" class="space-selection-modal-overlay w-full p-0 m-0" style="display: none;">
+        <div class="space-selection-modal-container">
+            <!-- Modal Header -->
+            <div class="space-selection-modal-header">
+                <div class="space-selection-modal-header-left">
+                    <button class="space-selection-modal-back-btn" id="modal-back-btn" style="display: none;">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                    </button>
+                    <div class="space-selection-modal-title" id="modal-title">
+                        <div class="space-selection-modal-space-name">GREENHECK HIGH SCHOOL</div>
+                        <div class="space-selection-modal-system-name" id="modal-system-name" style="display: none;">Dedicated Outdoor Air System (DOAS)</div>
+                    </div>
+                </div>
+                <div class="space-selection-modal-tabs" id="modal-tabs">
+                    <button class="space-selection-modal-tab active" data-tab="overview">Overview</button>
+                    <button class="space-selection-modal-tab" data-tab="system-equipment">System Equipment</button>
+                    <button class="space-selection-modal-tab" data-tab="design-narrative">Design Narrative</button>
+                    <button class="space-selection-modal-share-btn">
+                        <img src="./Content/imgs/icons/share-modal.svg" alt="Share" />
+                        Share
+                    </button>
+                </div>
+            </div>
+
+            <!-- Modal Content -->
+            <div class="space-selection-modal-content">
+                <button class="space-selection-modal-close-btn" id="modal-close-btn">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+                <!-- Building Overview Scene -->
+                <div id="building-overview-scene" class="scene active">
+                    <div class="school-building-container">
+                        <div class="school-building">
+                            <img src="./Content/imgs/school/school-roof-on.svg" alt="Greenheck High School Building" class="school-building-image" />
+                            <img src="./Content/imgs/school/admin-office-roof-open.svg" alt="Admin Office Roof Open" class="school-building-image admin-office-overlay" style="display: none;" />
+                            <div class="building-name">GREENHECK HIGH SCHOOL</div>
+
+                            <!-- Clickable Areas -->
+                            <div class="clickable-area classrooms" data-space="classrooms" data-system="DOAS" style="top: 43.8%; left: 18.5%; right: auto; transform: none;">
+                                <div class="space-icon"></div>
+                                <div class="space-label">Classrooms</div>
+                            </div>
+
+                            <div class="clickable-area science-lab" data-space="science-lab" data-system="DOAS" style="top: 19.6%; left: 33.8%; right: auto; transform: none;">
+                                <div class="space-icon"></div>
+                                <div class="space-label">Science Lab</div>
+                            </div>
+
+                            <div class="clickable-area locker-room" data-space="locker-room" data-system="DOAS" style="top: 24%;left: 39.4%; right: auto; transform: none;">
+                                <div class="space-icon"></div>
+                                <div class="space-label">Locker Room</div>
+                            </div>
+
+                            <div class="clickable-area admin-offices" data-space="admin-offices" data-system="DOAS" style="top: 43.5%; left: 50.1%; right: auto; transform: none;">
+                                <div class="space-icon"></div>
+                                <div class="space-label">Admin Offices</div>
+                            </div>
+
+                            <div class="clickable-area gym" data-space="gym" data-system="DOAS" style="top: 12.5%; left: 53.0%; right: auto; transform: none;">
+                                <div class="space-icon"></div>
+                                <div class="space-label">Gym</div>
+                            </div>
+
+                            <div class="clickable-area lobby" data-space="lobby" data-system="DOAS" style="top: 26%; left: 62.5%; right: auto; transform: none;">
+                                <div class="space-icon"></div>
+                                <div class="space-label">Lobby</div>
+                            </div>
+
+                            <div class="clickable-area cafeteria" data-space="cafeteria" data-system="DOAS" style="top: 26%; left: 76.4%; right: auto; transform: none;">
+                                <div class="space-icon"></div>
+                                <div class="space-label">Cafeteria</div>
+                            </div>
+
+                            <div class="clickable-area kitchen" data-space="kitchen" data-system="DOAS" style="top: 23.1%; left: 86.5%; right: auto; transform: none;">
+                                <div class="space-icon"></div>
+                                <div class="space-label">Kitchen</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Popover -->
+                <div id="space-popover" class="space-popover" style="display: none;">
+                    <div class="popover-content">
+                        <div class="popover-header">
+                            <h3 id="popover-space-name">Classroom</h3>
+                            <button class="popover-close-btn" id="popover-close-btn">
+                                <span class="material-symbols-outlined">close</span>
+                            </button>
+                        </div>
+                        <div class="popover-body">
+                            <p id="popover-system-name">Dedicated Outdoor Air System (DOAS)</p>
+                            <button class="popover-view-btn" id="popover-view-btn">View</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detail Scene -->
+                <div id="detail-scene" class="scene">
+                    <div class="detail-content">
+                        <!-- Left Panel - Text Content -->
+                        <div class="detail-left-panel">
+                            <div class="detail-text-content">
+                                <!-- Overview Tab Content -->
+                                <div id="overview-content" class="tab-content active">
+                                    <h3 id="detail-title">Classroom Overview</h3>
+                                    <p id="detail-description">
+                                        The flexible design decouples ventilation air and loads, allowing the DOAS units to handle latent loads and condition air while secondary HVAC systems handle sensible loads. This
+                                        approach provides better control, energy efficiency, and comfort. Proper control is essential for maintaining comfort and extending equipment lifespan.
+                                    </p>
+                                    <h4>Featured Equipment</h4>
+                                    <ul>
+                                        <li>Dedicated Outdoor Air System (DOAS) with energy recovery</li>
+                                        <li>Secondary HVAC system (not provided by Greenheck)</li>
+                                    </ul>
+                                </div>
+
+                                <!-- System Equipment Tab Content -->
+                                <div id="system-equipment-content" class="tab-content">
+                                    <div class="product-carousel">
+                                        <div class="product-card active" data-product="rve-85">
+                                            <h3>RVE-85</h3>
+                                            <div class="product-image-container">
+                                                <button class="carousel-prev">‹</button>
+                                                <div class="product-image">
+                                                    <div class="hvac-unit-3d">HVAC Unit 3D</div>
+                                                </div>
+                                                <button class="carousel-next">›</button>
+                                            </div>
+                                            <div class="carousel-dots">
+                                                <span class="dot active"></span>
+                                                <span class="dot"></span>
+                                                <span class="dot"></span>
+                                                <span class="dot"></span>
+                                            </div>
+                                            <ul class="product-features">
+                                                <li>Direct drive plenum supply and optional exhaust fans with neoprene isolation and factory-provided variable frequency drive.</li>
+                                                <li>2-inch double-wall cabinet with R13 injected foam insulation. R13 foam insulation thermally broken. Exterior Finish Permatector™ (2,500 hr salt spray rating under ASTM
+                                                    B117 testing conditions)</li>
+                                            </ul>
+                                            <button class="view-product-details-btn">View Product Details</button>
+                                        </div>
+
+                                        <div class="product-card" data-product="atu-xg-th-500">
+                                            <h3>ATU - XG-TH-500</h3>
+                                            <div class="product-image-container">
+                                                <button class="carousel-prev">‹</button>
+                                                <div class="product-image">
+                                                    <div class="hvac-unit-3d">VAV Box 3D</div>
+                                                </div>
+                                                <button class="carousel-next">›</button>
+                                            </div>
+                                            <div class="carousel-dots">
+                                                <span class="dot active"></span>
+                                                <span class="dot"></span>
+                                                <span class="dot"></span>
+                                            </div>
+                                            <ul class="product-features">
+                                                <li>Damper rotates in a self-lubricating, long-life, low-friction thermoplastic bearing</li>
+                                                <li>Industry leading continuous welded primary inlet duct to minimize leakage with three stiffening beads for added rigidity</li>
+                                                <li>Mechanically fastened damper assembly shall be double layer, 18-gauge equivalent, galvanized</li>
+                                            </ul>
+                                            <button class="view-product-details-btn">View Product Details</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Design Narrative Tab Content -->
+                                <div id="design-narrative-content" class="tab-content">
+                                    <h3>Classroom Design Narrative</h3>
+                                    <p>
+                                        The <strong>Dedicated Outdoor Air System (DOAS)</strong> model handles latent loads and conditions air while secondary HVAC systems handle sensible loads. The design centers on a
+                                        <strong>Greenheck model RVE-85, rooftop ventilator</strong> equipped with a <strong>polymer total energy recovery wheel</strong> and a <strong>packaged Air Source Heat Pump
+                                            (ASHP)</strong> with electric secondary heating.
+                                    </p>
+                                    <p>
+                                        The unit includes <strong>modulating, inverter scroll compressors</strong>, <strong>electronically commutated (EC) on all condenser fan motors</strong>, and <strong>modulating hot
+                                            gas reheat</strong>. Supply and exhaust fans are controlled by <strong>factory provided, field mounted duct static pressure sensors</strong>.
+                                    </p>
+                                    <p>
+                                        Each room features <strong>motorized, single duct VAV boxes, Greenheck model XG-TH-500</strong>, which open/close based on occupancy to maintain ventilation. Air terminal units
+                                        have <strong>1" fiberglass insulation with 1 1/2 lb weight</strong> and connect to a <strong>Greenheck XG-5750 air diffuser</strong>.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Panel - 3D Exploded View -->
+                        <div class="detail-right-panel">
+                            <div class="exploded-view-container">
+                                <div class="exploded-3d-view">
+                                    <div class="hvac-elements">
+                                        <div class="hvac-component blue-highlight" data-product="rve-85">RVE-85</div>
+                                        <div class="hvac-component blue-highlight" data-product="atu-xg-th-500">VAV Box</div>
+                                        <div class="hvac-component">Ductwork</div>
+                                        <div class="hvac-component">Diffuser</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <footer>
         <nav class="footer-main" aria-label="Footer">
             <!-- Products -->
@@ -371,6 +579,310 @@
         })();
     </script>
     <script src="./Content/js/header.js"></script>
+
+    <!-- Space Selection Modal Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Elements
+            const selectSpaceBtn = document.getElementById('select-space-btn');
+            const modal = document.getElementById('space-selection-modal');
+            const closeBtn = document.getElementById('modal-close-btn');
+            const backBtn = document.getElementById('modal-back-btn');
+            const modalOverlay = document.querySelector('.space-selection-modal-overlay');
+            const tabs = document.querySelectorAll('.space-selection-modal-tab');
+            const clickableAreas = document.querySelectorAll('.clickable-area');
+            const selectSpacesBtn = document.getElementById('modal-select-spaces-btn');
+
+            // Scenes
+            const buildingOverviewScene = document.getElementById('building-overview-scene');
+            const detailScene = document.getElementById('detail-scene');
+            const popover = document.getElementById('space-popover');
+
+            // Popover elements
+            const popoverCloseBtn = document.getElementById('popover-close-btn');
+            const popoverViewBtn = document.getElementById('popover-view-btn');
+            const popoverSpaceName = document.getElementById('popover-space-name');
+            const popoverSystemName = document.getElementById('popover-system-name');
+
+            // Detail scene elements
+            const modalSpaceName = document.querySelector('.modal-space-name');
+            const modalSystemName = document.getElementById('modal-system-name');
+            const detailTitle = document.getElementById('detail-title');
+            const detailDescription = document.getElementById('detail-description');
+
+            // Tab content
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            // Product carousel elements
+            const productCards = document.querySelectorAll('.product-card');
+            const carouselPrevBtns = document.querySelectorAll('.carousel-prev');
+            const carouselNextBtns = document.querySelectorAll('.carousel-next');
+            const dots = document.querySelectorAll('.dot');
+            const hvacComponents = document.querySelectorAll('.hvac-component');
+
+            // State
+            let currentSpace = null;
+            let currentSystem = null;
+            let currentProductIndex = 0;
+
+            // Open modal
+            selectSpaceBtn.addEventListener('click', function () {
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+                showBuildingOverview();
+            });
+
+            // Close modal
+            function closeModal() {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                hidePopover();
+                showBuildingOverview();
+            }
+
+            closeBtn.addEventListener('click', closeModal);
+            modalOverlay.addEventListener('click', function (e) {
+                if (e.target === modalOverlay) {
+                    closeModal();
+                }
+            });
+
+            // Show building overview scene
+            function showBuildingOverview() {
+                buildingOverviewScene.classList.add('active');
+                detailScene.classList.remove('active');
+                backBtn.style.display = 'none';
+                modalSpaceName.textContent = 'GREENHECK HIGH SCHOOL';
+                modalSystemName.style.display = 'none';
+                document.getElementById('modal-tabs').style.display = 'none';
+
+                // Reset admin office overlay
+                const adminOfficeOverlay = document.querySelector('.admin-office-overlay');
+                if (adminOfficeOverlay) {
+                    adminOfficeOverlay.style.display = 'none';
+                }
+
+                // Show all clickable areas again
+                clickableAreas.forEach(area => {
+                    area.style.display = 'block';
+                });
+            }
+
+            // Show detail scene
+            function showDetailScene(space, system) {
+                currentSpace = space;
+                currentSystem = system;
+
+                buildingOverviewScene.classList.remove('active');
+                detailScene.classList.add('active');
+                backBtn.style.display = 'flex';
+                modalSpaceName.textContent = space.charAt(0).toUpperCase() + space.slice(1);
+                modalSystemName.textContent = system;
+                modalSystemName.style.display = 'block';
+                document.getElementById('modal-tabs').style.display = 'flex';
+
+                // Update content based on space
+                updateDetailContent(space, system);
+            }
+
+            // Update detail content based on space
+            function updateDetailContent(space, system) {
+                const spaceData = {
+                    'classrooms': {
+                        title: 'Classroom Overview',
+                        description: 'The flexible design decouples ventilation air and loads, allowing the DOAS units to handle latent loads and condition air while secondary HVAC systems handle sensible loads. This approach provides better control, energy efficiency, and comfort. Proper control is essential for maintaining comfort and extending equipment lifespan.',
+                        equipment: [
+                            'Dedicated Outdoor Air System (DOAS) with energy recovery',
+                            'Secondary HVAC system (not provided by Greenheck)'
+                        ]
+                    },
+                    'gym': {
+                        title: 'Gym Overview',
+                        description: 'The gymnasium features a single-zone, variable airflow system designed for high occupancy and activity levels. The system includes demand-controlled ventilation and high-volume, low-speed fans for optimal air circulation.',
+                        equipment: [
+                            'High Volume Low Speed (HVLS) fans',
+                            'Demand-controlled ventilation system'
+                        ]
+                    }
+                };
+
+                const data = spaceData[space] || spaceData['classrooms'];
+                detailTitle.textContent = data.title;
+                detailDescription.textContent = data.description;
+            }
+
+            // Show popover
+            function showPopover(space, system, x, y) {
+                popoverSpaceName.textContent = space.charAt(0).toUpperCase() + space.slice(1);
+                popoverSystemName.textContent = system;
+                popover.style.display = 'block';
+                popover.style.left = x + 'px';
+                popover.style.top = y + 'px';
+            }
+
+            // Hide popover
+            function hidePopover() {
+                popover.style.display = 'none';
+            }
+
+            // Admin office overlay element
+            const adminOfficeOverlay = document.querySelector('.admin-office-overlay');
+
+            // Clickable areas functionality
+            clickableAreas.forEach(area => {
+                area.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    const space = this.dataset.space;
+                    const system = this.dataset.system;
+
+                    // Toggle admin office roof overlay
+                    if (space === 'admin-offices') {
+                        if (adminOfficeOverlay) {
+                            const isVisible = adminOfficeOverlay.style.display !== 'none';
+                            adminOfficeOverlay.style.display = isVisible ? 'none' : 'block';
+                        }
+                    }
+
+                    // Store the position before hiding the area
+                    const rect = this.getBoundingClientRect();
+                    const modalRect = modal.getBoundingClientRect();
+                    const x = rect.left - modalRect.left + rect.width / 2 - 19;
+                    const y = rect.top - modalRect.top - 235;
+
+                    // Hide the clicked area
+                    this.style.display = 'none';
+
+                    // Show popover at the same position
+                    showPopover(space, system, x, y);
+                });
+
+                // Hover effects
+                area.addEventListener('mouseenter', function () {
+                    this.style.transform = 'scale(1.05)';
+                });
+
+                area.addEventListener('mouseleave', function () {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+
+            // Popover view button
+            popoverViewBtn.addEventListener('click', function () {
+                hidePopover();
+                showDetailScene(currentSpace, currentSystem);
+            });
+
+            // Popover close button
+            popoverCloseBtn.addEventListener('click', function () {
+                hidePopover();
+                // Show all clickable areas when popover is closed
+                clickableAreas.forEach(area => {
+                    area.style.display = 'block';
+                });
+            });
+
+            // Back button
+            backBtn.addEventListener('click', function () {
+                showBuildingOverview();
+            });
+
+            // Tab functionality
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function () {
+                    const tabName = this.dataset.tab;
+
+                    // Update tab states
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Update tab content
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    document.getElementById(tabName + '-content').classList.add('active');
+                });
+            });
+
+            // Product carousel functionality
+            function showProduct(index) {
+                productCards.forEach((card, i) => {
+                    card.classList.toggle('active', i === index);
+                });
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === index);
+                });
+            }
+
+            carouselPrevBtns.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    currentProductIndex = currentProductIndex > 0 ? currentProductIndex - 1 : productCards.length - 1;
+                    showProduct(currentProductIndex);
+                });
+            });
+
+            carouselNextBtns.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    currentProductIndex = currentProductIndex < productCards.length - 1 ? currentProductIndex + 1 : 0;
+                    showProduct(currentProductIndex);
+                });
+            });
+
+            // HVAC component clicks
+            hvacComponents.forEach(component => {
+                component.addEventListener('click', function () {
+                    const product = this.dataset.product;
+                    if (product) {
+                        // Find and show the corresponding product card
+                        const productCard = document.querySelector(`[data-product="${product}"]`);
+                        if (productCard) {
+                            const cardIndex = Array.from(productCards).indexOf(productCard);
+                            if (cardIndex !== -1) {
+                                currentProductIndex = cardIndex;
+                                showProduct(currentProductIndex);
+                                // Switch to System Equipment tab
+                                tabs.forEach(t => t.classList.remove('active'));
+                                document.querySelector('[data-tab="system-equipment"]').classList.add('active');
+                                tabContents.forEach(content => content.classList.remove('active'));
+                                document.getElementById('system-equipment-content').classList.add('active');
+                            }
+                        }
+                    }
+                });
+            });
+
+            // Select spaces button functionality
+            selectSpacesBtn.addEventListener('click', function () {
+                const selectedAreas = document.querySelectorAll('.clickable-area.selected');
+                if (selectedAreas.length > 0) {
+                    const selectedSpaces = Array.from(selectedAreas).map(area => area.dataset.space);
+                    console.log('Selected spaces:', selectedSpaces);
+                    alert(`Selected spaces: ${selectedSpaces.join(', ')}`);
+                } else {
+                    alert('Please select at least one space');
+                }
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    if (popover.style.display === 'block') {
+                        hidePopover();
+                    } else if (modal.style.display === 'flex') {
+                        closeModal();
+                    }
+                }
+            });
+
+            // Click outside popover to close
+            document.addEventListener('click', function (e) {
+                if (!popover.contains(e.target) && popover.style.display === 'block') {
+                    hidePopover();
+                    // Show all clickable areas when popover is closed by clicking outside
+                    clickableAreas.forEach(area => {
+                        area.style.display = 'block';
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
