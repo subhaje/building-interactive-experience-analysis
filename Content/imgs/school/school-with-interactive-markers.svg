@@ -1,0 +1,181 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" width="100%" height="auto" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <style>
+      .interactive-marker {
+        cursor: pointer;
+        transition: transform 0.2s ease;
+        transform-origin: center;
+        transform-box: fill-box;
+      }
+      .interactive-marker:hover {
+        transform-origin: center;
+        transform-box: fill-box;
+      }
+      .interactive-marker:hover .marker-circle {
+        fill: #0066cc;
+      }
+      .marker-circle {
+        fill: #0080ff;
+        transition: fill 0.2s ease;
+      }
+      .marker-plus {
+        fill: white;
+        stroke: white;
+        stroke-width: 2;
+      }
+      .building-section {
+        fill: #d4d4d4;
+        stroke: #999999;
+        stroke-width: 2;
+      }
+      .building-window {
+        fill: #87ceeb;
+        opacity: 0.6;
+      }
+      .building-roof {
+        fill: #a8a8a8;
+        stroke: #888888;
+        stroke-width: 1.5;
+      }
+      .ground {
+        fill: #e8e8e8;
+      }
+      .greenery {
+        fill: #4CAF50;
+      }
+      .text-label {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        font-weight: bold;
+        fill: white;
+        text-anchor: middle;
+        pointer-events: none;
+      }
+      .building-name {
+        font-family: Arial, sans-serif;
+        font-size: 24px;
+        font-weight: bold;
+        fill: #333333;
+      }
+    </style>
+    
+    <g id="marker-template">
+      <circle class="marker-circle" r="20" />
+      <g class="marker-plus">
+        <line x1="0" y1="-10" x2="0" y2="10" />
+        <line x1="-10" y1="0" x2="10" y2="0" />
+      </g>
+    </g>
+  </defs>
+  
+  <rect class="ground" width="1400" height="900" />
+  
+  <g id="school-building">
+    <g id="section-classrooms">
+      <polygon class="building-section" points="100,450 100,350 350,250 350,350" />
+      <polygon class="building-roof" points="80,340 80,320 360,220 360,240" />
+      <rect class="building-window" x="120" y="380" width="40" height="50" />
+      <rect class="building-window" x="180" y="360" width="40" height="50" />
+      <rect class="building-window" x="240" y="340" width="40" height="50" />
+      <rect class="building-window" x="300" y="320" width="40" height="50" />
+    </g>
+    
+    <g id="section-science-lab">
+      <polygon class="building-section" points="350,350 350,300 500,240 500,290" />
+      <polygon class="building-roof" points="340,290 340,270 510,210 510,230" />
+      <rect class="building-window" x="380" y="315" width="35" height="40" />
+      <rect class="building-window" x="440" y="290" width="35" height="40" />
+    </g>
+    
+    <g id="section-locker-room">
+      <polygon class="building-section" points="500,290 500,250 620,200 620,240" />
+      <polygon class="building-roof" points="490,240 490,220 630,170 630,190" />
+      <rect class="building-window" x="520" y="265" width="30" height="35" />
+      <rect class="building-window" x="570" y="245" width="30" height="35" />
+    </g>
+    
+    <g id="section-gym">
+      <polygon class="building-section" points="620,400 620,240 800,180 800,340" />
+      <polygon class="building-roof" points="600,230 600,210 820,150 820,170" />
+      <rect class="building-window" x="650" y="300" width="50" height="60" />
+      <rect class="building-window" x="730" y="270" width="50" height="60" />
+    </g>
+    
+    <g id="section-lobby">
+      <polygon class="building-section" points="500,520 500,450 700,380 700,450" />
+      <polygon class="building-roof" points="490,445 490,425 710,360 710,380" />
+      <polygon fill="#8B7355" points="560,520 560,480 640,450 640,490" />
+    </g>
+    
+    <g id="section-admin-offices">
+      <polygon class="building-section" points="350,550 350,480 500,420 500,490" />
+      <polygon class="building-roof" points="340,475 340,455 510,395 510,415" />
+      <rect class="building-window" x="380" y="505" width="35" height="40" />
+      <rect class="building-window" x="440" y="480" width="35" height="40" />
+    </g>
+    
+    <g id="section-cafeteria">
+      <polygon class="building-section" points="800,450 800,340 980,290 980,400" />
+      <polygon class="building-roof" points="790,335 790,315 990,265 990,285" />
+      <rect class="building-window" x="820" y="375" width="45" height="55" />
+      <rect class="building-window" x="890" y="350" width="45" height="55" />
+      <rect class="building-window" x="820" y="410" width="45" height="30" />
+    </g>
+    
+    <g id="section-kitchen">
+      <polygon class="building-section" points="980,400 980,320 1130,270 1130,350" />
+      <polygon class="building-roof" points="970,315 970,295 1140,245 1140,265" />
+      <rect class="building-window" x="1010" y="345" width="35" height="40" />
+      <rect class="building-window" x="1070" y="325" width="35" height="40" />
+    </g>
+    
+    <text class="building-name" x="600" y="620">GREENHECK HIGH SCHOOL</text>
+    
+    <ellipse class="greenery" cx="250" cy="520" rx="40" ry="20" />
+    <ellipse class="greenery" cx="450" cy="570" rx="35" ry="18" />
+    <ellipse class="greenery" cx="750" cy="520" rx="45" ry="22" />
+    <ellipse class="greenery" cx="1050" cy="430" rx="40" ry="20" />
+  </g>
+  
+  <g id="marker-classrooms" class="interactive-marker" transform="translate(220, 280)" data-section="classrooms">
+    <use href="#marker-template" />
+    <text class="text-label" y="45">Classrooms</text>
+  </g>
+  
+  <g id="marker-science-lab" class="interactive-marker" transform="translate(425, 240)" data-section="science-lab">
+    <use href="#marker-template" />
+    <text class="text-label" y="45">Science Lab</text>
+  </g>
+  
+  <g id="marker-locker-room" class="interactive-marker" transform="translate(555, 200)" data-section="locker-room">
+    <use href="#marker-template" />
+    <text class="text-label" y="45">Locker Room</text>
+  </g>
+  
+  <g id="marker-gym" class="interactive-marker" transform="translate(710, 190)" data-section="gym">
+    <use href="#marker-template" />
+    <text class="text-label" y="45">Gym</text>
+  </g>
+  
+  <g id="marker-lobby" class="interactive-marker" transform="translate(600, 400)" data-section="lobby">
+    <use href="#marker-template" />
+    <text class="text-label" y="45">Lobby</text>
+  </g>
+  
+  <g id="marker-admin-offices" class="interactive-marker" transform="translate(425, 440)" data-section="admin-offices">
+    <use href="#marker-template" />
+    <text class="text-label" y="45">Admin Offices</text>
+  </g>
+  
+  <g id="marker-cafeteria" class="interactive-marker" transform="translate(890, 310)" data-section="cafeteria">
+    <use href="#marker-template" />
+    <text class="text-label" y="45">Cafeteria</text>
+  </g>
+  
+  <g id="marker-kitchen" class="interactive-marker" transform="translate(1055, 285)" data-section="kitchen">
+    <use href="#marker-template" />
+    <text class="text-label" y="45">Kitchen</text>
+  </g>
+  
+</svg>
+

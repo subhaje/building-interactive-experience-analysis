@@ -1,0 +1,547 @@
+{
+  "classrooms": {
+    "id": "classrooms",
+    "title": "Classrooms",
+    "description": "Standard learning spaces require proper ventilation for student health and comfort. Fresh air circulation is critical for maintaining focus and reducing CO2 levels.",
+    "imageUrl": "Content/imgs/icons/select-a-space.svg",
+    "hvacSolutions": [
+      {
+        "id": "erv",
+        "name": "Energy Recovery Ventilators (ERV)",
+        "description": "Recover energy from exhaust air while bringing in fresh outdoor air",
+        "icon": "Content/imgs/icons/energy-recovery.svg",
+        "products": ["ERV-500", "ERV-750"]
+      },
+      {
+        "id": "doas",
+        "name": "Dedicated Outdoor Air Systems (DOAS)",
+        "description": "Provide 100% outdoor air ventilation for optimal indoor air quality",
+        "icon": "Content/imgs/icons/outdoor-air.svg",
+        "products": ["DOAS-1000", "DOAS-1500"]
+      },
+      {
+        "id": "diffusers",
+        "name": "Ceiling-Mounted Diffusers",
+        "description": "Even air distribution for comfort throughout the classroom",
+        "icon": "Content/imgs/icons/grilles.svg",
+        "products": ["CD-24", "CD-36"]
+      },
+      {
+        "id": "sensors",
+        "name": "CO2 Sensors",
+        "description": "Demand-controlled ventilation based on occupancy levels",
+        "icon": "Content/imgs/icons/airflow.svg",
+        "products": ["CO2-SENSOR-100"]
+      }
+    ],
+    "products": [
+      {
+        "id": "ERV-500",
+        "name": "Model ERV-500",
+        "category": "Energy Recovery",
+        "image": "Content/imgs/EnergyRecovery.png",
+        "description": "Compact energy recovery ventilator ideal for classroom applications",
+        "specs": {
+          "airflow": "500 CFM",
+          "efficiency": "Up to 80%",
+          "application": "Small to medium classrooms"
+        }
+      },
+      {
+        "id": "DOAS-1000",
+        "name": "Model DOAS-1000",
+        "category": "100% Outdoor Air",
+        "image": "Content/imgs/100OutdoorAir.png",
+        "description": "Dedicated outdoor air system for optimal IAQ",
+        "specs": {
+          "airflow": "1000 CFM",
+          "filtration": "MERV 13",
+          "application": "Multiple classrooms"
+        }
+      }
+    ],
+    "requirements": {
+      "standard": "ASHRAE 62.1",
+      "ventilationRate": "10 CFM per person minimum",
+      "occupancy": "Typically 25-30 students",
+      "specialConsiderations": "CO2 levels should not exceed 1000 ppm"
+    }
+  },
+  "gym": {
+    "id": "gym",
+    "title": "Gymnasium",
+    "description": "High-activity spaces need robust ventilation systems to handle increased occupancy and physical activity. Temperature and humidity control are essential for comfort and equipment protection.",
+    "imageUrl": "Content/imgs/icons/select-a-space.svg",
+    "hvacSolutions": [
+      {
+        "id": "rooftop-units",
+        "name": "High-Capacity Rooftop Units",
+        "description": "Powerful units designed for large open spaces",
+        "icon": "Content/imgs/icons/rooftop.svg",
+        "products": ["RTU-2000", "RTU-3000"]
+      },
+      {
+        "id": "hvls-fans",
+        "name": "Large-Diameter Fans",
+        "description": "High-volume, low-speed fans for air circulation",
+        "icon": "Content/imgs/icons/fans.svg",
+        "products": ["FAN-HVLS-20", "FAN-HVLS-24"]
+      },
+      {
+        "id": "destratification",
+        "name": "Destratification Fans",
+        "description": "Eliminate temperature stratification in tall spaces",
+        "icon": "Content/imgs/icons/fans.svg",
+        "products": ["DESTRAT-18"]
+      },
+      {
+        "id": "exhaust",
+        "name": "High-Volume Exhaust Systems",
+        "description": "Remove heat and moisture during peak activity",
+        "icon": "Content/imgs/icons/tampered.svg",
+        "products": ["EXH-5000"]
+      }
+    ],
+    "products": [
+      {
+        "id": "RTU-2000",
+        "name": "Model RTU-2000",
+        "category": "Rooftop Units",
+        "image": "Content/imgs/RooftopUnits.png",
+        "description": "Heavy-duty rooftop unit for gymnasiums and large spaces",
+        "specs": {
+          "airflow": "20,000 CFM",
+          "cooling": "50 tons",
+          "heating": "Gas or electric"
+        }
+      },
+      {
+        "id": "FAN-HVLS-20",
+        "name": "HVLS Fan 20ft",
+        "category": "Fans",
+        "image": "Content/imgs/Fans.png",
+        "description": "20-foot diameter high-volume, low-speed fan",
+        "specs": {
+          "diameter": "20 feet",
+          "coverage": "20,000 sq ft",
+          "speed": "Variable"
+        }
+      }
+    ],
+    "requirements": {
+      "standard": "ASHRAE 62.1",
+      "ventilationRate": "20 CFM per person during activity",
+      "occupancy": "200-500 people",
+      "specialConsiderations": "Higher ventilation rates during physical activity, humidity control essential"
+    }
+  },
+  "cafeteria": {
+    "id": "cafeteria",
+    "title": "Cafeteria",
+    "description": "Dining areas require proper ventilation to handle food odors, maintain air quality during peak usage times, and coordinate with adjacent kitchen exhaust systems.",
+    "imageUrl": "Content/imgs/icons/select-a-space.svg",
+    "hvacSolutions": [
+      {
+        "id": "grilles-registers",
+        "name": "Grilles, Registers, and Diffusers",
+        "description": "Distributed air delivery for dining comfort",
+        "icon": "Content/imgs/icons/grilles.svg",
+        "products": ["GRD-SET-CAF"]
+      },
+      {
+        "id": "erv-cafeteria",
+        "name": "Energy Recovery Systems",
+        "description": "Efficient ventilation with energy savings",
+        "icon": "Content/imgs/icons/energy-recovery.svg",
+        "products": ["ERV-1500"]
+      },
+      {
+        "id": "makeup-air",
+        "name": "Makeup Air Units",
+        "description": "Replace air exhausted by adjacent kitchen",
+        "icon": "Content/imgs/icons/outdoor-air.svg",
+        "products": ["MAU-3000"]
+      },
+      {
+        "id": "air-terminals",
+        "name": "Air Terminal Units",
+        "description": "Zone control for different dining areas",
+        "icon": "Content/imgs/icons/air-terminal.svg",
+        "products": ["ATU-VAV-12"]
+      }
+    ],
+    "products": [
+      {
+        "id": "GRD-SET-CAF",
+        "name": "Cafeteria Diffuser Set",
+        "category": "Grilles & Diffusers",
+        "image": "Content/imgs/GrillesRegistersDiffusers.png",
+        "description": "Complete set of grilles, registers, and diffusers for cafeteria applications",
+        "specs": {
+          "type": "Linear bar grilles and square diffusers",
+          "finish": "Powder-coated white",
+          "application": "Dining areas"
+        }
+      },
+      {
+        "id": "MAU-3000",
+        "name": "Model MAU-3000",
+        "category": "100% Outdoor Air",
+        "image": "Content/imgs/100OutdoorAir.png",
+        "description": "Makeup air unit to replace kitchen exhaust",
+        "specs": {
+          "airflow": "3000 CFM",
+          "heating": "Gas or electric",
+          "application": "Cafeteria/Kitchen support"
+        }
+      }
+    ],
+    "requirements": {
+      "standard": "ASHRAE 62.1 & IMC",
+      "ventilationRate": "7.5 CFM per person",
+      "occupancy": "200-400 students",
+      "specialConsiderations": "Coordinate with kitchen exhaust, odor control, peak usage times"
+    }
+  },
+  "kitchen": {
+    "id": "kitchen",
+    "title": "Commercial Kitchen",
+    "description": "Commercial kitchens require specialized ventilation for heat, smoke, and grease removal. Makeup air is critical to replace exhausted air and maintain building pressure.",
+    "imageUrl": "Content/imgs/icons/select-a-space.svg",
+    "hvacSolutions": [
+      {
+        "id": "kitchen-exhaust",
+        "name": "Type I & II Kitchen Exhaust Hoods",
+        "description": "Grease and heat removal with fire suppression",
+        "icon": "Content/imgs/icons/tampered.svg",
+        "products": ["HOOD-TYPE1-8", "HOOD-TYPE2-6"]
+      },
+      {
+        "id": "makeup-air-kitchen",
+        "name": "Makeup Air Units with Heating",
+        "description": "Tempered replacement air for comfort",
+        "icon": "Content/imgs/icons/outdoor-air.svg",
+        "products": ["MAU-5000-HEAT"]
+      },
+      {
+        "id": "grease-filters",
+        "name": "Grease Filters & Fire Suppression",
+        "description": "Safety systems for commercial cooking",
+        "icon": "Content/imgs/icons/healthcare.svg",
+        "products": ["FILTER-GREASE", "FIRE-SUPP-SYS"]
+      },
+      {
+        "id": "exhaust-fans-kitchen",
+        "name": "Direct-Drive Exhaust Fans",
+        "description": "Reliable, high-CFM exhaust capacity",
+        "icon": "Content/imgs/icons/fans.svg",
+        "products": ["EXH-DD-4000"]
+      }
+    ],
+    "products": [
+      {
+        "id": "HOOD-TYPE1-8",
+        "name": "Type I Hood - 8ft",
+        "category": "Kitchen Exhaust",
+        "image": "Content/imgs/TamperedVentilation.png",
+        "description": "8-foot Type I exhaust hood for cooking appliances",
+        "specs": {
+          "length": "8 feet",
+          "type": "Type I (grease)",
+          "exhaust": "2400 CFM",
+          "features": "Fire suppression ready"
+        }
+      },
+      {
+        "id": "MAU-5000-HEAT",
+        "name": "Model MAU-5000H",
+        "category": "100% Outdoor Air",
+        "image": "Content/imgs/100OutdoorAir.png",
+        "description": "Heated makeup air unit for kitchen applications",
+        "specs": {
+          "airflow": "5000 CFM",
+          "heating": "Natural gas, 400 MBH",
+          "application": "Commercial kitchens"
+        }
+      }
+    ],
+    "requirements": {
+      "standard": "NFPA 96 & IMC",
+      "ventilationRate": "Varies by appliance type",
+      "exhaust": "Minimum 200 CFM per linear foot of hood",
+      "specialConsiderations": "Fire safety, grease management, makeup air required, negative pressure control"
+    }
+  },
+  "science-lab": {
+    "id": "science-lab",
+    "title": "Science Laboratory",
+    "description": "Laboratory spaces require specialized ventilation for safety, including fume hood exhaust, high air change rates, and proper pressure relationships to adjacent spaces.",
+    "imageUrl": "Content/imgs/icons/select-a-space.svg",
+    "hvacSolutions": [
+      {
+        "id": "lab-exhaust",
+        "name": "Laboratory Exhaust Fans",
+        "description": "Dedicated exhaust for fume hoods and general lab ventilation",
+        "icon": "Content/imgs/icons/fans.svg",
+        "products": ["LAB-EXH-2000"]
+      },
+      {
+        "id": "fume-hoods",
+        "name": "Fume Hood Systems",
+        "description": "Constant or variable volume hood exhaust",
+        "icon": "Content/imgs/icons/healthcare.svg",
+        "products": ["FUME-HOOD-6FT"]
+      },
+      {
+        "id": "hepa-filtration",
+        "name": "HEPA Filtration Options",
+        "description": "High-efficiency particulate air filtration",
+        "icon": "Content/imgs/icons/airflow.svg",
+        "products": ["HEPA-FILTER-99.97"]
+      },
+      {
+        "id": "vav-control",
+        "name": "Constant or Variable Volume Control",
+        "description": "Precise airflow control for safety",
+        "icon": "Content/imgs/icons/air-terminal.svg",
+        "products": ["VAV-LAB-CTRL"]
+      }
+    ],
+    "products": [
+      {
+        "id": "LAB-EXH-2000",
+        "name": "Laboratory Exhaust Fan",
+        "category": "Fans",
+        "image": "Content/imgs/Fans.png",
+        "description": "Dedicated laboratory exhaust fan with chemical-resistant construction",
+        "specs": {
+          "airflow": "2000 CFM",
+          "construction": "Epoxy-coated",
+          "application": "General lab and fume hood exhaust"
+        }
+      },
+      {
+        "id": "FUME-HOOD-6FT",
+        "name": "6ft Fume Hood System",
+        "category": "Laboratory Ventilation",
+        "image": "Content/imgs/HealthcareLaboratoriesCleanrooms.png",
+        "description": "Complete 6-foot fume hood with variable volume control",
+        "specs": {
+          "width": "6 feet",
+          "faceVelocity": "100 FPM",
+          "control": "VAV with monitoring"
+        }
+      }
+    ],
+    "requirements": {
+      "standard": "ANSI Z9.5 Laboratory Ventilation",
+      "ventilationRate": "6-12 air changes per hour minimum",
+      "exhaustRate": "100 FPM face velocity at fume hoods",
+      "specialConsiderations": "Negative pressure relative to corridors, redundant exhaust systems, emergency power"
+    }
+  },
+  "locker-room": {
+    "id": "locker-room",
+    "title": "Locker Room",
+    "description": "High-humidity spaces with odor control needs. Exhaust ventilation and moisture management are priorities to maintain comfort and prevent mold growth.",
+    "imageUrl": "Content/imgs/icons/select-a-space.svg",
+    "hvacSolutions": [
+      {
+        "id": "high-capacity-exhaust",
+        "name": "High-Capacity Exhaust Fans",
+        "description": "Remove moisture and odors effectively",
+        "icon": "Content/imgs/icons/fans.svg",
+        "products": ["EXH-LR-1500"]
+      },
+      {
+        "id": "moisture-resistant",
+        "name": "Moisture-Resistant Diffusers",
+        "description": "Corrosion-resistant air distribution",
+        "icon": "Content/imgs/icons/grilles.svg",
+        "products": ["DIFF-MR-12"]
+      },
+      {
+        "id": "continuous-vent",
+        "name": "Continuous Ventilation Systems",
+        "description": "24/7 ventilation for moisture control",
+        "icon": "Content/imgs/icons/outdoor-air.svg",
+        "products": ["CONT-VENT-500"]
+      },
+      {
+        "id": "dehumidification",
+        "name": "Dehumidification Options",
+        "description": "Active moisture removal systems",
+        "icon": "Content/imgs/icons/airflow.svg",
+        "products": ["DEHUM-80PPD"]
+      }
+    ],
+    "products": [
+      {
+        "id": "EXH-LR-1500",
+        "name": "Locker Room Exhaust Fan",
+        "category": "Fans",
+        "image": "Content/imgs/Fans.png",
+        "description": "High-capacity exhaust fan with moisture-resistant construction",
+        "specs": {
+          "airflow": "1500 CFM",
+          "construction": "Stainless steel",
+          "application": "Locker rooms and shower areas"
+        }
+      },
+      {
+        "id": "DEHUM-80PPD",
+        "name": "Dehumidifier 80 PPD",
+        "category": "Accessories",
+        "image": "Content/imgs/AccessoriesComplimentaryProducts.png",
+        "description": "Removes 80 pints per day of moisture",
+        "specs": {
+          "capacity": "80 pints/day",
+          "coverage": "Up to 2000 sq ft",
+          "application": "High-humidity spaces"
+        }
+      }
+    ],
+    "requirements": {
+      "standard": "ASHRAE 62.1",
+      "ventilationRate": "0.5 CFM per sq ft minimum",
+      "exhaustRate": "50-75 CFM per shower/toilet",
+      "specialConsiderations": "Continuous exhaust, humidity control, odor management, corrosion-resistant materials"
+    }
+  },
+  "admin-offices": {
+    "id": "admin-offices",
+    "title": "Administrative Offices",
+    "description": "Office spaces require comfortable, quiet HVAC systems with individual zone control options. Energy efficiency and occupant comfort are key priorities.",
+    "imageUrl": "Content/imgs/icons/select-a-space.svg",
+    "hvacSolutions": [
+      {
+        "id": "vav-systems",
+        "name": "Variable Air Volume (VAV) Systems",
+        "description": "Energy-efficient zone control",
+        "icon": "Content/imgs/icons/air-terminal.svg",
+        "products": ["VAV-OFFICE-10"]
+      },
+      {
+        "id": "atu-reheat",
+        "name": "Air Terminal Units with Reheat",
+        "description": "Individual comfort control per office",
+        "icon": "Content/imgs/icons/air-terminal.svg",
+        "products": ["ATU-REHEAT-8"]
+      },
+      {
+        "id": "low-velocity",
+        "name": "Low-Velocity Diffusers",
+        "description": "Draft-free air distribution",
+        "icon": "Content/imgs/icons/grilles.svg",
+        "products": ["DIFF-LV-24"]
+      },
+      {
+        "id": "sound-attenuated",
+        "name": "Sound-Attenuated Equipment",
+        "description": "Quiet operation for office environment",
+        "icon": "Content/imgs/icons/dampers.svg",
+        "products": ["SILENCER-SA-36"]
+      }
+    ],
+    "products": [
+      {
+        "id": "VAV-OFFICE-10",
+        "name": "VAV Box - Office",
+        "category": "Air Terminal Units",
+        "image": "Content/imgs/AirTerminalUnits.png",
+        "description": "Variable air volume terminal unit for office applications",
+        "specs": {
+          "airflow": "150-1000 CFM",
+          "control": "DDC compatible",
+          "application": "Individual offices or zones"
+        }
+      },
+      {
+        "id": "DIFF-LV-24",
+        "name": "Low-Velocity Diffuser 24in",
+        "category": "Grilles & Diffusers",
+        "image": "Content/imgs/GrillesRegistersDiffusers.png",
+        "description": "24-inch square diffuser with low-velocity air pattern",
+        "specs": {
+          "size": "24 x 24 inches",
+          "pattern": "4-way",
+          "application": "Offices, conference rooms"
+        }
+      }
+    ],
+    "requirements": {
+      "standard": "ASHRAE 62.1 & 55",
+      "ventilationRate": "5 CFM per person + 0.06 CFM per sq ft",
+      "occupancy": "5-10 people per 1000 sq ft",
+      "specialConsiderations": "Thermal comfort (68-76°F), low noise levels (NC 30-35), individual control"
+    }
+  },
+  "lobby": {
+    "id": "lobby",
+    "title": "Main Lobby & Entrance",
+    "description": "Entry areas experience high traffic and require vestibules to minimize energy loss and maintain comfort. Proper air barriers and temperature control are essential.",
+    "imageUrl": "Content/imgs/icons/select-a-space.svg",
+    "hvacSolutions": [
+      {
+        "id": "air-curtains",
+        "name": "Air Curtains",
+        "description": "Invisible air barrier at entrances",
+        "icon": "Content/imgs/icons/outdoor-air.svg",
+        "products": ["AIR-CURTAIN-10FT"]
+      },
+      {
+        "id": "vestibule-heating",
+        "name": "Vestibule Heating",
+        "description": "Maintain comfort in entry areas",
+        "icon": "Content/imgs/icons/space-heating.svg",
+        "products": ["VEST-HEAT-GAS"]
+      },
+      {
+        "id": "linear-diffusers",
+        "name": "Linear Diffusers",
+        "description": "Aesthetic air distribution for high ceilings",
+        "icon": "Content/imgs/icons/grilles.svg",
+        "products": ["LINEAR-DIFF-4FT"]
+      },
+      {
+        "id": "vestibule-exhaust",
+        "name": "Vestibule Exhaust Fans",
+        "description": "Pressure control and door operation",
+        "icon": "Content/imgs/icons/fans.svg",
+        "products": ["VEST-EXH-500"]
+      }
+    ],
+    "products": [
+      {
+        "id": "AIR-CURTAIN-10FT",
+        "name": "Air Curtain 10ft",
+        "category": "Accessories",
+        "image": "Content/imgs/AccessoriesComplimentaryProducts.png",
+        "description": "10-foot heated air curtain for main entrance",
+        "specs": {
+          "width": "10 feet",
+          "airVelocity": "1200 FPM",
+          "heating": "Electric or hot water"
+        }
+      },
+      {
+        "id": "VEST-HEAT-GAS",
+        "name": "Vestibule Space Heater",
+        "category": "Space Heating",
+        "image": "Content/imgs/SpaceHeating.png",
+        "description": "Gas-fired unit heater for vestibule",
+        "specs": {
+          "capacity": "100 MBH",
+          "fuel": "Natural gas",
+          "application": "Entry vestibules"
+        }
+      }
+    ],
+    "requirements": {
+      "standard": "ASHRAE 62.1 & IECC",
+      "ventilationRate": "0.06 CFM per sq ft",
+      "specialConsiderations": "Vestibule required in cold climates, air curtains recommended, pressure balancing to prevent drafts"
+    }
+  }
+}
+

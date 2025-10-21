@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Markers Demo - Greenheck High School</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .instructions {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #2196F3;
+        }
+
+        .instructions h2 {
+            color: #1976D2;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .instructions ul {
+            margin-left: 20px;
+        }
+
+        .instructions li {
+            margin: 5px 0;
+        }
+
+        .svg-container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            background: #fafafa;
+        }
+
+        .svg-container object,
+        .svg-container svg {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-width: 100%;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .svg-container {
+                border-radius: 3px;
+            }
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #0080ff;
+            color: white;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .close-btn {
+            background: transparent;
+            border: none;
+            font-size: 32px;
+            color: white;
+            cursor: pointer;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+
+        .close-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-body p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .section-info {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+
+        .section-info h3 {
+            color: #0080ff;
+            margin-bottom: 10px;
+        }
+
+        .section-info ul {
+            margin-left: 20px;
+        }
+
+        .section-info li {
+            margin: 8px 0;
+            color: #555;
+        }
+
+        .api-payload {
+            background: #263238;
+            color: #aed581;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+
+        .api-payload pre {
+            margin: 0;
+        }
+
+        .click-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        .click-indicator.show {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .legend {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fff3e0;
+            border-radius: 5px;
+            border-left: 4px solid #ff9800;
+        }
+
+        .legend h3 {
+            color: #e65100;
+            margin-bottom: 10px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+        }
+
+        .legend-marker {
+            width: 30px;
+            height: 30px;
+            background: #0080ff;
+            border-radius: 50%;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Interactive SVG Markers - Demo</h1>
+
+        <div class="instructions">
+            <h2>📋 Instructions</h2>
+            <ul>
+                <li><strong>Click</strong> on any blue marker to see the section details</li>
+                <li>The modal will show the <strong>section ID</strong> and <strong>API payload</strong> that would be sent</li>
+                <li>This demonstrates how your design team should structure SVGs for the interactive experience</li>
+                <li><strong>Hover</strong> over markers to see the interactive effect</li>
+            </ul>
+        </div>
+
+        <div class="svg-container">
+            <object data="Content/imgs/school/school-with-interactive-markers.svg" type="image/svg+xml" id="svg-object">
+                Your browser does not support SVG
+            </object>
+        </div>
+
+        <div class="legend">
+            <h3>Interactive Markers Legend</h3>
+            <div class="legend-item">
+                <div class="legend-marker">+</div>
+                <span><strong>Blue Marker:</strong> Click to view HVAC solutions for this section</span>
+            </div>
+            <p style="margin-top: 10px; color: #666;">
+                Each marker has a unique ID that identifies the building section. When clicked,
+                this ID is used to fetch relevant HVAC equipment and solutions from the API.
+            </p>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="section-modal" class="modal">
+        <div class="modal-content">
+            <!-- Content will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <!-- Click Indicator -->
+    <div id="click-indicator" class="click-indicator">
+        Marker clicked! ✓
+    </div>
+
+    <script>
+        // Wait for SVG to load
+        const svgObject = document.getElementById('svg-object');
+
+        svgObject.addEventListener('load', function () {
+            const svgDoc = svgObject.contentDocument;
+
+            if (!svgDoc) {
+                console.error('Could not access SVG document');
+                return;
+            }
+
+            // Get all interactive markers
+            const markers = svgDoc.querySelectorAll('.interactive-marker');
+
+            console.log(`✓ Found ${markers.length} interactive markers`);
+
+            // Add click handlers to each marker
+            markers.forEach(marker => {
+                marker.addEventListener('click', handleMarkerClick);
+
+                // Add accessibility
+                marker.style.cursor = 'pointer';
+            });
+        });
+
+        /**
+         * Handle marker click event
+         */
+        function handleMarkerClick(event) {
+            const marker = event.currentTarget;
+            const markerId = marker.id; // e.g., "marker-classrooms"
+            const sectionId = markerId.replace('marker-', ''); // e.g., "classrooms"
+            const sectionData = marker.getAttribute('data-section');
+
+            // Show click indicator
+            const indicator = document.getElementById('click-indicator');
+            indicator.classList.add('show');
+            setTimeout(() => {
+                indicator.classList.remove('show');
+            }, 2000);
+
+            // Log to console
+            console.log('Marker clicked:', {
+                markerId,
+                sectionId,
+                sectionData
+            });
+
+            // Simulate API call and display modal
+            displaySectionModal(sectionId, markerId);
+        }
+
+        /**
+         * Load section data from JSON file
+         */
+        let cachedSectionData = null;
+
+        async function loadSectionData() {
+            if (cachedSectionData) {
+                return cachedSectionData;
+            }
+
+            try {
+                const response = await fetch('Content/js/section-data.json');
+                if (!response.ok) {
+                    throw new Error('Failed to load section data');
+                }
+                cachedSectionData = await response.json();
+                return cachedSectionData;
+            } catch (error) {
+                console.error('Error loading section data:', error);
+                return null;
+            }
+        }
+
+        /**
+         * Display section information in modal
+         */
+        async function displaySectionModal(sectionId, markerId) {
+            // Load data from JSON file
+            const allSectionData = await loadSectionData();
+
+            if (!allSectionData) {
+                alert('Error loading section data');
+                return;
+            }
+
+            const data = allSectionData[sectionId] || {
+                title: sectionId,
+                description: 'Section information coming soon.',
+                hvacSolutions: [],
+                requirements: { standard: 'TBD' }
+            };
+
+            // Create API payload example
+            const apiPayload = {
+                sectionId: sectionId,
+                buildingType: 'school',
+                facilityId: 'greenheck-high-school',
+                timestamp: new Date().toISOString()
+            };
+
+            // Build HVAC solutions HTML
+            const hvacSolutionsHTML = data.hvacSolutions && data.hvacSolutions.length > 0
+                ? `<div class="section-info">
+            <h3>🔧 Recommended HVAC Solutions</h3>
+            <ul>
+              ${data.hvacSolutions.map(solution => `
+                <li>
+                  <strong>${solution.name}</strong>
+                  ${solution.description ? `<br><span style="color: #666; font-size: 13px;">${solution.description}</span>` : ''}
+                </li>
+              `).join('')}
+            </ul>
+          </div>`
+                : '';
+
+            // Build products HTML
+            const productsHTML = data.products && data.products.length > 0
+                ? `<div class="section-info">
+            <h3>📦 Featured Products</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px;">
+              ${data.products.slice(0, 2).map(product => `
+                <div style="background: white; padding: 10px; border: 1px solid #e0e0e0; border-radius: 5px;">
+                  <img src="${product.image}" alt="${product.name}" style="width: 100%; height: 100px; object-fit: cover; border-radius: 3px; margin-bottom: 8px;">
+                  <h4 style="margin: 0 0 5px 0; font-size: 14px; color: #0080ff;">${product.name}</h4>
+                  <p style="margin: 0; font-size: 12px; color: #666;">${product.description}</p>
+                </div>
+              `).join('')}
+            </div>
+          </div>`
+                : '';
+
+            // Build requirements HTML
+            const requirementsHTML = data.requirements
+                ? `<div class="section-info">
+            <h3>📏 Requirements & Standards</h3>
+            ${data.requirements.standard ? `<p><strong>Standard:</strong> ${data.requirements.standard}</p>` : ''}
+            ${data.requirements.ventilationRate ? `<p><strong>Ventilation Rate:</strong> ${data.requirements.ventilationRate}</p>` : ''}
+            ${data.requirements.occupancy ? `<p><strong>Typical Occupancy:</strong> ${data.requirements.occupancy}</p>` : ''}
+            ${data.requirements.specialConsiderations ? `<p><strong>Special Considerations:</strong> ${data.requirements.specialConsiderations}</p>` : ''}
+          </div>`
+                : '';
+
+            // Build modal content
+            const modalContent = `
+        <div class="modal-header">
+          <h2>${data.title}</h2>
+          <button class="close-btn" onclick="closeModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p>${data.description}</p>
+          
+          ${hvacSolutionsHTML}
+          ${productsHTML}
+          ${requirementsHTML}
+
+          <div class="section-info">
+            <h3>💻 JSON Data Structure</h3>
+            <div class="api-payload">
+              <pre>${JSON.stringify(apiPayload, null, 2)}</pre>
+            </div>
+            <p style="margin-top: 10px; font-size: 14px; color: #666;">
+              <strong>Marker ID:</strong> ${markerId}<br>
+              <strong>Section ID:</strong> ${sectionId}<br>
+              <strong>Data Source:</strong> Content/js/section-data.json
+            </p>
+          </div>
+        </div>
+      `;
+
+            const modal = document.getElementById('section-modal');
+            modal.innerHTML = modalContent;
+            modal.classList.add('show');
+
+            // Close on backdrop click
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            // Close on Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeModal();
+                }
+            });
+        }
+
+        /**
+         * Close the modal
+         */
+        function closeModal() {
+            const modal = document.getElementById('section-modal');
+            modal.classList.remove('show');
+        }
+    </script>
+</body>
+
+</html>

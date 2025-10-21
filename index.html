@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Greenheck - Building Value in Air</title>
     <link rel="icon" type="image/x-icon" href="./imgs/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&URL_ADDRESS" />
     <link rel="stylesheet" href="./Content/css/common.css" />
     <link rel="stylesheet" href="./Content/css/header.css" />
@@ -114,15 +117,15 @@
             <div class="space-selection-modal-header">
                 <div class="space-selection-modal-header-left">
                     <button class="space-selection-modal-back-btn" id="modal-back-btn" style="display: none;">
-                        <span class="material-symbols-outlined">arrow_back</span>
+                        <span class="material-symbols-outlined">keyboard_arrow_down</span>
                     </button>
                     <div class="space-selection-modal-title" id="modal-title">
-                        <div class="space-selection-modal-space-name">GREENHECK HIGH SCHOOL</div>
+                        <div class="space-selection-modal-space-name"></div>
                         <div class="space-selection-modal-system-name" id="modal-system-name" style="display: none;">Dedicated Outdoor Air System (DOAS)</div>
                     </div>
                 </div>
                 <div class="space-selection-modal-tabs" id="modal-tabs">
-                    <button class="space-selection-modal-tab active" data-tab="overview">Overview</button>
+                    <button class="space-selection-modal-tab" data-tab="overview">Overview</button>
                     <button class="space-selection-modal-tab" data-tab="system-equipment">System Equipment</button>
                     <button class="space-selection-modal-tab" data-tab="design-narrative">Design Narrative</button>
                     <button class="space-selection-modal-share-btn">
@@ -142,11 +145,9 @@
                     <div class="school-building-container">
                         <div class="school-building">
                             <img src="./Content/imgs/school/school-roof-on.svg" alt="Greenheck High School Building" class="school-building-image" />
-                            <img src="./Content/imgs/school/admin-office-roof-open.svg" alt="Admin Office Roof Open" class="school-building-image admin-office-overlay" style="display: none;" />
-                            <div class="building-name">GREENHECK HIGH SCHOOL</div>
-
+                            <img src="./Content/imgs/school/school-roof-off.webp" alt="Admin Office Roof Open" class="school-building-image admin-office-overlay" style="display: none;" />
                             <!-- Clickable Areas -->
-                            <div class="clickable-area classrooms" data-space="classrooms" data-system="DOAS" style="top: 43.8%; left: 18.5%; right: auto; transform: none;">
+                            <div class="clickable-area classrooms" data-space="classrooms" data-system="Dedicated Outdoor Air System(DOAS)" style="top: 43.8%; left: 18.5%; right: auto; transform: none;">
                                 <div class="space-icon"></div>
                                 <div class="space-label">Classrooms</div>
                             </div>
@@ -161,7 +162,7 @@
                                 <div class="space-label">Locker Room</div>
                             </div>
 
-                            <div class="clickable-area admin-offices" data-space="admin-offices" data-system="DOAS" style="top: 43.5%; left: 50.1%; right: auto; transform: none;">
+                            <div class="clickable-area admin-offices" data-space="admin-offices" data-system="Multi-zone variable air volume" style="top: 43.5%; left: 50.1%; right: auto; transform: none;">
                                 <div class="space-icon"></div>
                                 <div class="space-label">Admin Offices</div>
                             </div>
@@ -193,12 +194,13 @@
                 <div id="space-popover" class="space-popover" style="display: none;">
                     <div class="popover-content">
                         <div class="popover-header">
-                            <h3 id="popover-space-name">Classroom</h3>
+
                             <button class="popover-close-btn" id="popover-close-btn">
                                 <span class="material-symbols-outlined">close</span>
                             </button>
                         </div>
                         <div class="popover-body">
+                            <h3 id="popover-space-name">Classroom</h3>
                             <p id="popover-system-name">Dedicated Outdoor Air System (DOAS)</p>
                             <button class="popover-view-btn" id="popover-view-btn">View</button>
                         </div>
@@ -606,6 +608,7 @@
 
             // Cached NodeLists
             const tabs = document.querySelectorAll('.space-selection-modal-tab');
+            const shareBtn = document.querySelector('.space-selection-modal-share-btn');
             const clickableAreas = document.querySelectorAll('.clickable-area');
             const tabContents = document.querySelectorAll('.tab-content');
             const productCards = document.querySelectorAll('.product-card');
@@ -692,9 +695,17 @@
                 buildingOverviewScene.classList.add('active');
                 detailScene.classList.remove('active');
                 backBtn.style.display = 'none';
-                modalSpaceName.textContent = 'GREENHECK HIGH SCHOOL';
+                modalSpaceName.textContent = '';
                 modalSystemName.style.display = 'none';
-                modalTabs.style.display = 'none';
+                modalTabs.style.display = 'flex';
+
+                // Disable tab buttons and share button in overview scene
+                tabs.forEach(tab => {
+                    tab.disabled = true;
+                });
+                if (shareBtn) {
+                    shareBtn.disabled = true;
+                }
 
                 // Reset admin office overlay
                 if (adminOfficeOverlay) {
@@ -703,7 +714,7 @@
 
                 // Show all clickable areas again
                 clickableAreas.forEach(area => {
-                    area.style.display = 'block';
+                    area.style.display = 'flex';
                 });
 
                 // Reset marker tracking
@@ -724,6 +735,26 @@
                 modalSystemName.textContent = system;
                 modalSystemName.style.display = 'block';
                 modalTabs.style.display = 'flex';
+
+                // Ensure Overview tab is selected and its content is shown
+                tabs.forEach(tab => {
+                    tab.disabled = false;
+                    tab.classList.remove('active');
+                });
+                if (shareBtn) {
+                    shareBtn.disabled = false;
+                }
+                const overviewTab = document.querySelector('[data-tab="overview"]');
+                if (overviewTab) {
+                    overviewTab.classList.add('active');
+                }
+
+                // Show Overview content
+                tabContents.forEach(content => content.classList.remove('active'));
+                const overviewContent = document.getElementById('overview-content');
+                if (overviewContent) {
+                    overviewContent.classList.add('active');
+                }
 
                 // Update content based on space
                 updateDetailContent(space, system);
@@ -764,7 +795,7 @@
 
                 popoverSpaceName.textContent = capitalizeSpace(space);
                 popoverSystemName.textContent = system;
-                popover.style.display = 'block';
+                popover.style.display = 'flex';
                 popover.style.left = `${x}px`;
                 popover.style.top = `${y}px`;
             }
@@ -784,7 +815,7 @@
 
                     // Reset previous marker if exists
                     if (previousClickedMarker && previousClickedMarker !== this) {
-                        previousClickedMarker.style.display = 'block';
+                        previousClickedMarker.style.display = 'flex';
                     }
 
                     // Toggle admin office roof overlay
@@ -812,6 +843,20 @@
 
             // Popover view button
             popoverViewBtn.addEventListener('click', function () {
+                // Enable tab buttons and share button, and select Overview
+                tabs.forEach(tab => {
+                    tab.disabled = false;
+                    tab.classList.remove('active');
+                });
+                if (shareBtn) {
+                    shareBtn.disabled = false;
+                }
+                // Select Overview tab
+                const overviewTab = document.querySelector('[data-tab="overview"]');
+                if (overviewTab) {
+                    overviewTab.classList.add('active');
+                }
+
                 hidePopover();
                 showDetailScene(currentSpace, currentSystem);
             });
@@ -821,7 +866,7 @@
                 hidePopover();
                 // Show all clickable areas when popover is closed
                 clickableAreas.forEach(area => {
-                    area.style.display = 'block';
+                    area.style.display = 'flex';
                 });
                 // Reset marker tracking
                 previousClickedMarker = null;
@@ -912,7 +957,7 @@
                         hidePopover();
                         // Show all clickable areas when popover is closed
                         clickableAreas.forEach(area => {
-                            area.style.display = 'block';
+                            area.style.display = 'flex';
                         });
                         // Reset marker tracking
                         previousClickedMarker = null;
@@ -928,7 +973,7 @@
                     hidePopover();
                     // Show all clickable areas when popover is closed by clicking outside
                     clickableAreas.forEach(area => {
-                        area.style.display = 'block';
+                        area.style.display = 'flex';
                     });
                     // Reset marker tracking
                     previousClickedMarker = null;

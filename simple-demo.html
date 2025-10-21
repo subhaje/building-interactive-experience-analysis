@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive School Building</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .svg-container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            background: #fafafa;
+        }
+
+        .svg-container object {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Greenheck High School</h1>
+
+        <div class="svg-container">
+            <object data="Content/imgs/school/school-with-interactive-markers.svg" type="image/svg+xml" id="svg-object">
+            </object>
+        </div>
+    </div>
+
+    <script>
+        const svgObject = document.getElementById('svg-object');
+
+        svgObject.addEventListener('load', function () {
+            const svgDoc = svgObject.contentDocument;
+            if (!svgDoc) return;
+
+            const markers = svgDoc.querySelectorAll('.interactive-marker');
+
+            const sections = {
+                'classrooms': { title: 'Classrooms', desc: 'Learning spaces' },
+                'science-lab': { title: 'Science Lab', desc: 'Laboratory facilities' },
+                'locker-room': { title: 'Locker Room', desc: 'Athletic facilities' },
+                'gym': { title: 'Gymnasium', desc: 'Sports activities' },
+                'lobby': { title: 'Lobby', desc: 'Main entrance' },
+                'admin-offices': { title: 'Admin', desc: 'Administrative offices' },
+                'cafeteria': { title: 'Cafeteria', desc: 'Dining area' },
+                'kitchen': { title: 'Kitchen', desc: 'Food preparation' }
+            };
+
+            markers.forEach(marker => {
+                marker.addEventListener('click', (e) => {
+                    const sectionId = e.currentTarget.id.replace('marker-', '');
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    showPopover(sectionId, rect.left + rect.width / 2, rect.top);
+                });
+            });
+
+            function showPopover(sectionId, x, y) {
+                const data = sections[sectionId] || { title: sectionId, desc: 'Section area' };
+
+                let popover = document.getElementById('section-popover');
+                if (!popover) {
+                    popover = document.createElement('div');
+                    popover.id = 'section-popover';
+                    popover.style.cssText = `
+            position: fixed;
+            background: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            pointer-events: none;
+          `;
+                    document.body.appendChild(popover);
+                }
+
+                popover.innerHTML = `
+          <div style="font-weight: bold; font-size: 14px; margin-bottom: 4px;">${data.title}</div>
+          <div style="font-size: 12px; color: #666;">${data.desc}</div>
+        `;
+
+                popover.style.left = `${x}px`;
+                popover.style.top = `${y - 60}px`;
+                popover.style.transform = 'translateX(-50%)';
+                popover.style.display = 'block';
+
+                setTimeout(() => {
+                    if (popover) popover.style.display = 'none';
+                }, 2000);
+            }
+        });
+    </script>
+</body>
+
+</html>
